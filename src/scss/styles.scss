@@ -6,3 +6,12 @@ body {
   width: 100%;
   background-color: black;
 }
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+canvas {
+  border: 2px solid white;
+}
