@@ -1,0 +1,32 @@
+{
+  "name": "space-monsters",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp && http-server ./dist -p 4200 -c-1",
+    "build": "gulp compile-ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iansadovy/space-monsters.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iansadovy/space-monsters/issues"
+  },
+  "homepage": "https://github.com/iansadovy/space-monsters#readme",
+  "devDependencies": {
+    "browserify": "^16.5.1",
+    "fancy-log": "^1.3.3",
+    "gulp": "^4.0.2",
+    "gulp-sass": "^4.1.0",
+    "http-server": "^0.12.3",
+    "node-sass": "^4.14.1",
+    "tsify": "^4.0.2",
+    "typescript": "^3.9.5",
+    "vinyl-source-stream": "^2.0.0"
+  }
+}
