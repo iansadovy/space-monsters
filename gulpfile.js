@@ -7,6 +7,7 @@ const sass = require('gulp-sass');
 sass.compiler = require('node-sass');
 
 gulp.task('copy-assets', async function() {
+  gulp.src(["assets/**/*"]).pipe(gulp.dest('dist/assets'));
   return gulp.src(["index.html"])
     .pipe(gulp.dest('dist'));
 });
@@ -32,7 +33,7 @@ gulp.task('compile-sass', async function() {
 
 gulp.task('build', gulp.parallel(['copy-assets', 'compile-ts', 'compile-sass']));
 gulp.task('watch', async function () {
-  return gulp.watch(['scss/**/*.scss', 'index.html'], gulp.parallel(['compile-sass', 'copy-assets']));
+  return gulp.watch(['scss/**/*.scss', 'index.html', 'assets/**/*'], gulp.parallel(['compile-sass', 'copy-assets']));
 });
 
 gulp.task('default', gulp.series(['build']));

@@ -2,8 +2,7 @@ import { Sprite } from '../framework/Sprite';
 
 export class Rocket extends Sprite {
 
-  constructor(ctx: CanvasRenderingContext2D) {
-    super(ctx);
+  protected onInit() {
     this.width = 100;
     this.height = 100;
     this.x = this.stageWidth / 2 - this.width / 2;

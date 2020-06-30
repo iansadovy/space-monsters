@@ -13,6 +13,11 @@ export abstract class Sprite {
     this.ctx = ctx;
     this.stageWidth = ctx.canvas.width;
     this.stageHeight = ctx.canvas.height;
+    this.onInit();
+  }
+
+  protected onInit(): void {
+
   }
 
   public abstract render(): void;

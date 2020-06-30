@@ -1,8 +1,8 @@
 import { Sprite } from '../../framework/Sprite';
 
 export class PauseGameScreen extends Sprite {
-  constructor(ctx: CanvasRenderingContext2D) {
-    super(ctx);
+
+  protected onInit() {
     this.width = this.stageWidth;
     this.height = this.stageHeight;
   }

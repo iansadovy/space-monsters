@@ -1,6 +1,8 @@
 import { Rocket } from './game/Rocket';
 import { StartGameScreen } from './game/screens/StartGameScreen';
 import { PauseGameScreen } from './game/screens/PauseGameScreen';
+import { Resources } from './framework/Resources';
+import { Background } from './game/Background';
 export class SpaceMonsters {
 
   private STAGE_W = 450;
@@ -8,11 +10,12 @@ export class SpaceMonsters {
 
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
-  
+
   private rocket: Rocket;
   private startScreen: StartGameScreen;
   private pauseScreen: PauseGameScreen;
-  
+  private background: Background;
+
   private isStarted: boolean;
   private isPaused: boolean;
 
@@ -22,14 +25,24 @@ export class SpaceMonsters {
     this.canvas.height = this.STAGE_H;
 
     this.ctx = this.canvas.getContext("2d");
+
+    Resources.getInstance().onReady = () => this.onResourcesReady();
+    Resources.getInstance().load([
+      "assets/background.png"
+    ]);
+  }
+
+  private onResourcesReady() {
     this.rocket = new Rocket(this.ctx);
 
     this.startScreen = new StartGameScreen(this.ctx);
     this.pauseScreen = new PauseGameScreen(this.ctx);
-    
+    this.background = new Background(this.ctx);
+
     this.canvas.onclick = () => this.onCanvasClick();
     document.addEventListener('pointerlockchange', () => this.onPointerLockChange());
-    
+
+    this.background.render();
     this.startScreen.render();
   }
 
@@ -49,6 +62,7 @@ export class SpaceMonsters {
   private start() {
     console.log("start");
     this.isStarted = true;
+    this.isPaused = false;
     this.enterFrame();
   }
 
@@ -62,6 +76,9 @@ export class SpaceMonsters {
   private lastUpdate: number = 0;
   private lastAnimationFrame: number;
   private enterFrame() {
+    if (!this.isStarted || this.isPaused) {
+      return;
+    }
     if (this.lastUpdate != 0) {
       const dt = (Date.now() - this.lastUpdate) / 1000.0;
       this.update(dt);
@@ -76,6 +93,7 @@ export class SpaceMonsters {
 
   private render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.background.render();
     this.rocket.render();
   }
 
