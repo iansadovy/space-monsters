@@ -25,14 +25,14 @@ gulp.task('compile-ts', async function() {
 });
 
 gulp.task('compile-sass', async function() {
-  return gulp.src('src/scss/**/*.scss')
+  return gulp.src('scss/**/*.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('dist/css'));
 });
 
 gulp.task('build', gulp.parallel(['copy-assets', 'compile-ts', 'compile-sass']));
 gulp.task('watch', async function () {
-  return gulp.watch(['src/scss/**/*.scss', 'index.html'], gulp.parallel(['compile-sass', 'copy-assets']));
+  return gulp.watch(['scss/**/*.scss', 'index.html'], gulp.parallel(['compile-sass', 'copy-assets']));
 });
 
 gulp.task('default', gulp.series(['build']));
