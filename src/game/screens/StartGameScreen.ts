@@ -8,6 +8,7 @@ export class StartGameScreen extends Sprite {
   }
 
   public render() {
+    this.ctx.fillStyle = "white";
     this.ctx.font = '48px monospace';
     this.ctx.textAlign = 'center';
     this.ctx.fillText('SPACE MONSTERS', this.width / 2, this.height / 2);

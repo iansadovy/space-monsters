@@ -48,7 +48,7 @@ export class Resources {
     img.src = url;
   }
 
-  public get(url: string) {
+  public get(url: string): HTMLImageElement {
     return this.resourceCache[url];
   }
 
