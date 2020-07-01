@@ -3,29 +3,24 @@ import { StartGameScreen } from './game/screens/StartGameScreen';
 import { PauseGameScreen } from './game/screens/PauseGameScreen';
 import { Resources } from './framework/Resources';
 import { Background } from './game/Background';
-export class SpaceMonsters {
+import { Sprite } from './framework/Sprite';
 
-  private STAGE_W = 450;
-  private STAGE_H = 800;
+export class SpaceMonsters extends Sprite {
 
   private canvas: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D;
 
   private rocket: Rocket;
   private startScreen: StartGameScreen;
   private pauseScreen: PauseGameScreen;
   private background: Background;
-
   private isStarted: boolean;
-  private isPaused: boolean;
 
   constructor(canvas: HTMLCanvasElement) {
+    super(canvas.getContext("2d"));
     this.canvas = canvas;
-    this.canvas.width = this.STAGE_W;
-    this.canvas.height = this.STAGE_H;
+  }
 
-    this.ctx = this.canvas.getContext("2d");
-
+  protected onInit() {
     Resources.getInstance().onReady = () => this.onResourcesReady();
     Resources.getInstance().load([
       "assets/background.png"
@@ -33,17 +28,18 @@ export class SpaceMonsters {
   }
 
   private onResourcesReady() {
+    this.background = new Background(this.ctx);
+    this.appendChild(this.background);
     this.rocket = new Rocket(this.ctx);
+    this.appendChild(this.rocket);
+    this.render();
 
     this.startScreen = new StartGameScreen(this.ctx);
+    this.startScreen.render();
     this.pauseScreen = new PauseGameScreen(this.ctx);
-    this.background = new Background(this.ctx);
 
     this.canvas.onclick = () => this.onCanvasClick();
     document.addEventListener('pointerlockchange', () => this.onPointerLockChange());
-
-    this.background.render();
-    this.startScreen.render();
   }
 
   private onCanvasClick() {
@@ -62,40 +58,16 @@ export class SpaceMonsters {
   private start() {
     console.log("start");
     this.isStarted = true;
-    this.isPaused = false;
-    this.enterFrame();
+    this.play();
   }
 
   private pause() {
-    this.isPaused = true;
-    cancelAnimationFrame(this.lastAnimationFrame);
-    this.lastUpdate = 0;
+    this.isStarted = false;
+    this.stop();
     this.pauseScreen.render();
   }
 
-  private lastUpdate: number = 0;
-  private lastAnimationFrame: number;
-  private enterFrame() {
-    if (!this.isStarted || this.isPaused) {
-      return;
-    }
-    if (this.lastUpdate != 0) {
-      const dt = (Date.now() - this.lastUpdate) / 1000.0;
-      this.update(dt);
-      this.render();
-    }
-    this.lastUpdate = Date.now();
-    this.lastAnimationFrame = requestAnimationFrame(() => this.enterFrame());
+  protected onEnterFrame(dt: number) {
+    ``
   }
-
-  private update(dt: number) {
-  }
-
-  private render() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.background.render();
-    this.rocket.render();
-  }
-
-
 }

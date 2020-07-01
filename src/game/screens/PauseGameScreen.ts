@@ -21,7 +21,7 @@ export class PauseGameScreen extends Sprite {
     );
     this.ctx.filter = 'none'; // remove filter
 
-    this.ctx.fillStyle = '#000';
+    this.ctx.fillStyle = '#fff';
     this.ctx.font = '48px monospace';
     this.ctx.textAlign = 'center';
     this.ctx.fillText('PAUSE', this.width / 2, this.height / 2);
