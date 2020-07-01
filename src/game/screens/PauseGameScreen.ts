@@ -14,7 +14,7 @@ export class PauseGameScreen extends Sprite {
     this.ctx.fill();
     this.ctx.closePath();
 
-    this.ctx.filter = 'blur(100px)';
+    this.ctx.filter = 'blur(10px)';
     this.ctx.drawImage(this.ctx.canvas,
       this.x, this.y, this.width, this.height,
       this.x, this.y, this.width, this.height

@@ -21,6 +21,14 @@ export abstract class Sprite {
 
   public render(): void { }
 
+  public renderAll(): void {
+    this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
+    this.render();
+    for (const child of this.children) {
+      child.render();
+    }
+  }
+
   public play() {
     this.isPlaying = true;
     const loop = () => {
@@ -34,11 +42,7 @@ export abstract class Sprite {
         }
         const dt = (Date.now() - this.lastUpdate) / 1000.0;
         this.onEnterFrame(dt);
-        this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
-        this.render();
-        for (const child of this.children) {
-          child.render();
-        }
+        this.renderAll();
         loop();
       });
     }

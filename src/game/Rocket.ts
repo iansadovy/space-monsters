@@ -1,21 +1,19 @@
 import { Sprite } from '../framework/Sprite';
+import { Resources } from '../framework/Resources';
 
 export class Rocket extends Sprite {
 
   protected onInit() {
-    this.width = 100;
-    this.height = 100;
+    this.width = 186 / 4;
+    this.height = 294 / 4;
     this.x = this.stageWidth / 2 - this.width / 2;
-    this.y = this.stageHeight - this.height;
+    this.y = this.stageHeight - this.height - 20;
     document.addEventListener("mousemove", (e: MouseEvent) => this.onMouseMove(e));
   }
 
   public render() {
-    this.ctx.beginPath();
-    this.ctx.rect(this.x, this.y, this.width, this.height);
-    this.ctx.fillStyle = "#FF0000";
-    this.ctx.fill();
-    this.ctx.closePath();
+    const img = Resources.getInstance().get("assets/space-ship.png");
+    this.ctx.drawImage(img, this.x, this.y, this.width, this.height);
   }
 
   onMouseMove(e: MouseEvent) {

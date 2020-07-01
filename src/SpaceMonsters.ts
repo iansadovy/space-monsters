@@ -23,7 +23,8 @@ export class SpaceMonsters extends Sprite {
   protected onInit() {
     Resources.getInstance().onReady = () => this.onResourcesReady();
     Resources.getInstance().load([
-      "assets/background.png"
+      "assets/background.png",
+      "assets/space-ship.png",
     ]);
   }
 
@@ -32,7 +33,7 @@ export class SpaceMonsters extends Sprite {
     this.appendChild(this.background);
     this.rocket = new Rocket(this.ctx);
     this.appendChild(this.rocket);
-    this.render();
+    this.renderAll();
 
     this.startScreen = new StartGameScreen(this.ctx);
     this.startScreen.render();
