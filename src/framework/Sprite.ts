@@ -40,7 +40,7 @@ export abstract class Sprite {
         if (this.isPlaying == false) {
           return;
         }
-        const dt = (Date.now() - this.lastUpdate) / 1000.0;
+        const dt = (Date.now() - this.lastUpdate) / 10.0;
         this.onEnterFrame(dt);
         this.renderAll();
         loop();
