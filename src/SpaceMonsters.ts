@@ -1,25 +1,43 @@
-import { Rocket } from './game/Rocket';
 import { StartGameScreen } from './game/screens/StartGameScreen';
 import { PauseGameScreen } from './game/screens/PauseGameScreen';
 import { Resources } from './framework/Resources';
-import { Background } from './game/Background';
 import { Sprite } from './framework/Sprite';
-import { Asteroid } from './game/enemies/Asteroid';
-import { UFO } from './game/enemies/UFO';
+import { ILevelFactory } from './game/ILevelFactory';
+import { ISprite } from './framework/ISprite';
+import { IEnemy } from './game/levels/solar/enemies/IEnemy';
+import { SolarLevelFactory } from './game/levels/solar/SolarLevelFactory';
 
 export class SpaceMonsters extends Sprite {
 
+  private static instance: SpaceMonsters = null;
+
   private canvas: HTMLCanvasElement;
 
-  private rocket: Rocket;
+  private levelFactory: ILevelFactory;
+
+  private rocket: ISprite;
+  private background: ISprite;
+  private enemies: IEnemy[] = [];
+
+
   private startScreen: StartGameScreen;
   private pauseScreen: PauseGameScreen;
-  private background: Background;
   private isStarted: boolean;
 
   constructor(canvas: HTMLCanvasElement) {
     super(canvas.getContext("2d"));
+    if (SpaceMonsters.instance != null) {
+      throw "SpaceMonsters cannot be created more than once.";
+    }
+    SpaceMonsters.instance = this;
     this.canvas = canvas;
+  }
+
+  public static getInstance(canvas: HTMLCanvasElement) {
+    if (SpaceMonsters.instance == null) {
+      SpaceMonsters.instance = new SpaceMonsters(canvas);
+    }
+    return SpaceMonsters.instance;
   }
 
   protected onInit() {
@@ -33,9 +51,12 @@ export class SpaceMonsters extends Sprite {
   }
 
   private onResourcesReady() {
-    this.background = new Background(this.ctx);
+    this.levelFactory = new SolarLevelFactory(this.ctx);
+    
+    this.background = this.levelFactory.createBackground();
     this.appendChild(this.background);
-    this.rocket = new Rocket(this.ctx);
+
+    this.rocket = this.levelFactory.createRocket();
     this.appendChild(this.rocket);
     this.renderAll();
 
@@ -72,20 +93,18 @@ export class SpaceMonsters extends Sprite {
     this.pauseScreen.render();
   }
 
-  private enemies: Sprite[] = [];
-
   protected onEnterFrame(dt: number) {
     if (this.enemies.length < 3) {
-      const enemy: Asteroid | UFO = Math.random() > 0.5 ? new Asteroid(this.ctx) : new UFO(this.ctx);
+      const enemy: IEnemy = this.levelFactory.createEnemy();
       enemy.x = Math.random() * (this.stageWidth - enemy.width);
       enemy.y = Math.random() * -this.stageHeight;
       this.enemies.push(enemy);
       this.appendChild(enemy);
     }
 
-    const enemiesToRemove: Sprite[] = [];
+    const enemiesToRemove: IEnemy[] = [];
     for (const enemy of this.enemies) {
-      enemy.y += (<Asteroid | UFO>enemy).speed * dt;
+      enemy.y += enemy.speed * dt;
       if (enemy.y > this.stageHeight) {
         enemiesToRemove.push(enemy);
       }

@@ -1,14 +1,15 @@
-export abstract class Sprite {
+import { ISprite } from './ISprite';
+export abstract class Sprite implements ISprite {
   public x: number = 0;
   public y: number = 0;
   public width: number = 0;
   public height: number = 0;
 
-  protected _parent: Sprite = null;
+  protected _parent: ISprite = null;
   protected ctx: CanvasRenderingContext2D;
   protected stageWidth: number = 0;
   protected stageHeight: number = 0;
-  protected children: Set<Sprite> = new Set<Sprite>();
+  protected children: Set<ISprite> = new Set<ISprite>();
   protected lastUpdate: number = 0;
   protected isPlaying: boolean = false;
 
@@ -56,14 +57,14 @@ export abstract class Sprite {
   protected onInit(): void { }
   protected onEnterFrame(dt: number): void { }
 
-  public appendChild(child: Sprite) {
-    child._parent = this;
+  public appendChild(child: ISprite) {
+    child.parent = this;
     this.children.add(child);
   }
 
-  public removeChild(child: Sprite) {
+  public removeChild(child: ISprite) {
     if (this.children.delete(child)) {
-      child._parent = null;
+      child.parent = null;
     }
   }
 
@@ -71,7 +72,11 @@ export abstract class Sprite {
     this._parent.removeChild(this);
   }
 
-  public get parent(): Sprite {
+  public get parent(): ISprite {
     return this._parent;
+  }
+
+  public set parent(value: ISprite) {
+    this._parent = value;
   }
 }

@@ -1,7 +1,8 @@
-import { Sprite } from '../../framework/Sprite';
-import { Resources } from '../../framework/Resources';
+import { IEnemy } from './IEnemy';
+import { Sprite } from '../../../../framework/Sprite';
+import { Resources } from '../../../../framework/Resources';
 
-export class Asteroid extends Sprite {
+export class Asteroid extends Sprite implements IEnemy {
 
     public speed = 7;
 

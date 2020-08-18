@@ -9,6 +9,7 @@ export class Resources {
     if (Resources.instance != null) {
       throw "Singleton";
     }
+    Resources.instance = this;
   }
 
   public static getInstance() {

@@ -1,5 +1,5 @@
-import { Sprite } from '../framework/Sprite';
-import { Resources } from '../framework/Resources';
+import { Sprite } from "../../../framework/Sprite";
+import { Resources } from "../../../framework/Resources";
 
 export class Rocket extends Sprite {
 

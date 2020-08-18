@@ -4,5 +4,5 @@ import { SpaceMonsters } from './SpaceMonsters';
   canvas.width = 450;
   canvas.height = 800;
   document.body.appendChild(canvas);
-  const game = new SpaceMonsters(canvas);
+  const game = SpaceMonsters.getInstance(canvas);
 })();
