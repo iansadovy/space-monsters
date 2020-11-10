@@ -6,6 +6,7 @@ import { IEnemy } from './game/IEnemy';
 import { LevelBuilder } from './game/levels/LevelBuilder';
 import { LevelDirector } from './game/levels/LevelDirector';
 import { Level } from './game/levels/Level';
+import { PrototypeSample } from './prototype/PrototypeSample';
 
 export class SpaceMonsters extends Sprite {
 
@@ -107,3 +108,5 @@ export class SpaceMonsters extends Sprite {
     }
   }
 }
+
+new PrototypeSample();
