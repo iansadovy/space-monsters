@@ -2,24 +2,18 @@ import { StartGameScreen } from './game/screens/StartGameScreen';
 import { PauseGameScreen } from './game/screens/PauseGameScreen';
 import { Resources } from './framework/Resources';
 import { Sprite } from './framework/Sprite';
-import { ILevelFactory } from './game/ILevelFactory';
-import { ISprite } from './framework/ISprite';
-import { IEnemy } from './game/levels/solar/enemies/IEnemy';
-import { SolarLevelFactory } from './game/levels/solar/SolarLevelFactory';
+import { IEnemy } from './game/IEnemy';
+import { LevelBuilder } from './game/levels/LevelBuilder';
+import { LevelDirector } from './game/levels/LevelDirector';
+import { Level } from './game/levels/Level';
 
 export class SpaceMonsters extends Sprite {
 
   private static instance: SpaceMonsters = null;
 
   private canvas: HTMLCanvasElement;
-
-  private levelFactory: ILevelFactory;
-
-  private rocket: ISprite;
-  private background: ISprite;
+  private level: Level;
   private enemies: IEnemy[] = [];
-
-
   private startScreen: StartGameScreen;
   private pauseScreen: PauseGameScreen;
   private isStarted: boolean;
@@ -51,13 +45,10 @@ export class SpaceMonsters extends Sprite {
   }
 
   private onResourcesReady() {
-    this.levelFactory = new SolarLevelFactory(this.ctx);
-    
-    this.background = this.levelFactory.createBackground();
-    this.appendChild(this.background);
+    this.level = LevelDirector.createHardLevel(new LevelBuilder(this.ctx));
 
-    this.rocket = this.levelFactory.createRocket();
-    this.appendChild(this.rocket);
+    this.appendChild(this.level.background);
+    this.appendChild(this.level.rocket);
     this.renderAll();
 
     this.startScreen = new StartGameScreen(this.ctx);
@@ -94,8 +85,8 @@ export class SpaceMonsters extends Sprite {
   }
 
   protected onEnterFrame(dt: number) {
-    if (this.enemies.length < 3) {
-      const enemy: IEnemy = this.levelFactory.createEnemy();
+    if (this.enemies.length < this.level.enemiesCount) {
+      const enemy: IEnemy = this.level.enemiesFactory.createEnemy();
       enemy.x = Math.random() * (this.stageWidth - enemy.width);
       enemy.y = Math.random() * -this.stageHeight;
       this.enemies.push(enemy);

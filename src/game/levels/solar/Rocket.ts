@@ -3,6 +3,13 @@ import { Resources } from "../../../framework/Resources";
 
 export class Rocket extends Sprite {
 
+  private img: HTMLImageElement;
+
+  constructor(ctx: CanvasRenderingContext2D, res: string) {
+    super(ctx);
+    this.img = Resources.getInstance().get(res);
+  }
+
   protected onInit() {
     this.width = 186 / 4;
     this.height = 294 / 4;
@@ -12,8 +19,7 @@ export class Rocket extends Sprite {
   }
 
   public render() {
-    const img = Resources.getInstance().get("assets/space-ship.png");
-    this.ctx.drawImage(img, this.x, this.y, this.width, this.height);
+    this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
   onMouseMove(e: MouseEvent) {

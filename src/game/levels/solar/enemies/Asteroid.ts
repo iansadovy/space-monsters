@@ -1,4 +1,4 @@
-import { IEnemy } from './IEnemy';
+import { IEnemy } from '../../../IEnemy';
 import { Sprite } from '../../../../framework/Sprite';
 import { Resources } from '../../../../framework/Resources';
 
